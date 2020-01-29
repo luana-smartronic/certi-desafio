@@ -4,21 +4,21 @@ Web service de tradução de número por extenso.
 _Obs.: o desenvolvimento da aplicação foi feita sob a versão 3.7.6 do Python._
 
 ## Pré-requisitos
-São necessários os seguintes framework para executar a aplicação com sucesso:
+São necessários os seguintes frameworks para executar a aplicação com sucesso:
 ### Flask (framework web)
-Para instalar execute o seguinte comando:
+Para instalar, execute o seguinte comando:
 ```
 $ pip3 install flask
 ```
 
 ### Pytest (framework de testes) 
-Para instalar execute o seguinte comando:
+Para instalar, execute o seguinte comando:
 ```
 $ pip3 install pytest
 ```
 
 ## Para executar a aplicação
-No diretório raiz da aplicação execute o seguinte comando:
+No diretório raiz da aplicação, execute o seguinte comando:
 ```
 $ python3 app.py
 ```
@@ -41,12 +41,12 @@ Para parar o serviço pressione as teclas:
 Ctrl+C
 ```
 
-## Para aplicar os testes do unitários do software
+## Para aplicar os testes unitários de software
 Altere o diretório para:
 ```
 $ cd test/
 ```
-Agora execute o seguinte comando:
+e execute o seguinte comando:
 ```
 $ pytest
 ```
