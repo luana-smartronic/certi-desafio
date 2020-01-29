@@ -53,7 +53,7 @@ class TranslateNumber(Exception):
         for digit in reversed(range(self.numberSize)):
             self.numberAsArray.append(int(self.numberInString[digit]))
 
-    def solveTensThousands(self, value):
+    def __solveTensThousands(self, value):
         if value == 1:
             if self.numberAsArray[NumbersOrder.UNITS_THOUSANDS] == 0:
                 self.numberInFull += self.tensArray[value]
@@ -64,7 +64,7 @@ class TranslateNumber(Exception):
             self.numberInFull += self.tensArray[value]
 
 
-    def solveUnitsThousands(self, value, exist):
+    def __solveUnitsThousands(self, value, exist):
         if exist:
             if self.numberAsArray[NumbersOrder.TENS_THOUSANDS] != 1:
                 self.numberInFull += " e "
@@ -79,7 +79,7 @@ class TranslateNumber(Exception):
                 self.numberInFull += "mil"
         return exist
 
-    def solveHundreds(self, value, exist):
+    def __solveHundreds(self, value, exist):
         if exist:
             self.numberInFull += " "
         if value == 1:
@@ -96,7 +96,7 @@ class TranslateNumber(Exception):
         return exist
 
 
-    def solveTens(self, value, exist):
+    def __solveTens(self, value, exist):
         if exist:
             self.numberInFull += " e "
         exist = True
@@ -110,7 +110,7 @@ class TranslateNumber(Exception):
             self.numberInFull += self.tensArray[value]
         return exist
 
-    def solveUnits(self, value, exist):
+    def __solveUnits(self, value, exist):
         if exist:
             if self.numberAsArray[NumbersOrder.TENS] != 1:
                 self.numberInFull += " e "
@@ -130,24 +130,24 @@ class TranslateNumber(Exception):
             value = self.numberAsArray[index]
             if value > 0:
                 if index == NumbersOrder.TENS_THOUSANDS:    # dezena de milhar
-                    self.solveTensThousands(value)
+                    self.__solveTensThousands(value)
                     previousExist = True
 
 
                 elif index == NumbersOrder.UNITS_THOUSANDS:    # unidade de milhar
-                    previousExist = self.solveUnitsThousands(value, previousExist)
+                    previousExist = self.__solveUnitsThousands(value, previousExist)
 
 
                 elif index == NumbersOrder.HUNDREDS:    # centena
-                    previousExist = self.solveHundreds(value, previousExist)
+                    previousExist = self.__solveHundreds(value, previousExist)
 
 
                 elif index == NumbersOrder.TENS:    # dezena
-                    previousExist = self.solveTens(value, previousExist)
+                    previousExist = self.__solveTens(value, previousExist)
 
 
                 elif index == NumbersOrder.UNITS:    # unidade
-                    self.solveUnits(value, previousExist)
+                    self.__solveUnits(value, previousExist)
             else:
                 if index == NumbersOrder.UNITS and not previousExist:
                     self.numberInFull = "zero"
