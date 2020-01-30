@@ -1,6 +1,9 @@
 from enum import IntEnum
 
 class NumbersOrder(IntEnum):
+    """
+    Enum que representa cada algarismo dentro do numero como um array.
+    """
     TENS_THOUSANDS = 4
     UNITS_THOUSANDS = 3
     HUNDREDS = 2
@@ -9,7 +12,10 @@ class NumbersOrder(IntEnum):
 
 
 class TranslateNumber(Exception):
-
+    """
+    Classe de traducao dos numeros.
+    Herda de Excecoes para disparar caso algum numero nao esteja dentro dos parametros desejados.
+    """
     def __init__(self, number):
         self.numberInString =  str(number)
         self.numberSize = 0
@@ -27,6 +33,10 @@ class TranslateNumber(Exception):
         self.validateNumber()
 
     def validateNumber(self):
+        """
+        Valida se o numero passado como parametro esta dentro dos padroes aceitos pela aplicacao.
+        :return: sobe uma excecao o numero seja invalido.
+        """
         try:
             self.numberInString = self.numberInString.strip()
 
@@ -35,18 +45,21 @@ class TranslateNumber(Exception):
                 self.numberInString = self.numberInString.replace('-', '')
 
             if not self.numberInString.isdigit():
-                raise TranslateNumberException("Valor inválido! São permitidos apenas números inteiros entre -99999 à 99999.")
+                raise TranslateNumberException("Valor invalido! Sao permitidos apenas numeros inteiros entre -99999 a 99999.")
 
             number = int(self.numberInString)  # converte para inteiro para retirar os zeros a esquerda.
             self.numberInString = str(number)  # volta para string para testar o tamanho maximo.
 
             if len(self.numberInString) > 5:
-                raise TranslateNumberException("Fora da faixa permitida! Tente algum número entre -99999 à 99999.")
+                raise TranslateNumberException("Fora da faixa permitida! Tente algum numero entre -99999 a 99999.")
 
         except ValueError:
             raise TranslateNumberException("")
 
     def __digitExtractor(self):
+        """
+        Transforma o numero em um array de seus algarismos.
+        """
         self.numberSize = len(self.numberInString)
         self.numberAsArray = []
 
@@ -54,6 +67,11 @@ class TranslateNumber(Exception):
             self.numberAsArray.append(int(self.numberInString[digit]))
 
     def __solveTensThousands(self, value):
+        """
+        Resolve a traducao para o algarismo da dezena de milhar.
+        :param value: recebe valor do algarismo correspondente.
+        :return: nenhum.
+        """
         if value == 1:
             if self.numberAsArray[NumbersOrder.UNITS_THOUSANDS] == 0:
                 self.numberInFull += self.tensArray[value]
@@ -65,6 +83,12 @@ class TranslateNumber(Exception):
 
 
     def __solveUnitsThousands(self, value, exist):
+        """
+        Resolve a traducao para o algarismo da unidade de milhar.
+        :param value: recebe valor do algarismo correspondente.
+        :param exist: recebe se existe algum algarismo anterior na hierarquia dos numeros.
+        :return: retorna a existencia do respectivo algarismo.
+        """
         if exist:
             if self.numberAsArray[NumbersOrder.TENS_THOUSANDS] != 1:
                 self.numberInFull += " e "
@@ -80,6 +104,12 @@ class TranslateNumber(Exception):
         return exist
 
     def __solveHundreds(self, value, exist):
+        """
+        Resolve a traducao para o algarismo das centenas.
+        :param value: recebe valor do algarismo correspondente.
+        :param exist: recebe se existe algum algarismo anterior na hierarquia dos numeros.
+        :return: retorna a existencia do respectivo algarismo.
+        """
         if exist:
             self.numberInFull += " "
         if value == 1:
@@ -97,6 +127,12 @@ class TranslateNumber(Exception):
 
 
     def __solveTens(self, value, exist):
+        """
+        Resolve a traducao para o algarismo das dezenas.
+        :param value: recebe valor do algarismo correspondente.
+        :param exist: recebe se existe algum algarismo anterior na hierarquia dos numeros.
+        :return: retorna a existencia do respectivo algarismo.
+        """
         if exist:
             self.numberInFull += " e "
         exist = True
@@ -111,6 +147,12 @@ class TranslateNumber(Exception):
         return exist
 
     def __solveUnits(self, value, exist):
+        """
+        Resolve a traducao para o algarismo das unidades.
+        :param value: recebe valor do algarismo correspondente.
+        :param exist: recebe se existe algum algarismo anterior na hierarquia dos numeros.
+        :return: nenhum.
+        """
         if exist:
             if self.numberAsArray[NumbersOrder.TENS] != 1:
                 self.numberInFull += " e "
@@ -121,18 +163,21 @@ class TranslateNumber(Exception):
 
 
     def translate(self):
-        self.__digitExtractor()
+        """
+        Faz a tradução por extenso do numero passado como parametro.
+        :return: retorna o numero traduzido por extenso.
+        """
+        self.__digitExtractor() # Extrai cada algarismo do numero para dentro de um array (numberAsArray).
 
         self.numberInFull = ""
         previousExist = False
 
-        for index in reversed(range(self.numberSize)):
+        for index in reversed(range(self.numberSize)): # Varre o array de numeros e trata cada algarismo individualmente.
             value = self.numberAsArray[index]
             if value > 0:
                 if index == NumbersOrder.TENS_THOUSANDS:    # dezena de milhar
                     self.__solveTensThousands(value)
                     previousExist = True
-
 
                 elif index == NumbersOrder.UNITS_THOUSANDS:    # unidade de milhar
                     previousExist = self.__solveUnitsThousands(value, previousExist)
@@ -159,6 +204,8 @@ class TranslateNumber(Exception):
 
 
 class TranslateNumberException(Exception):
-
+    """
+    Classe que apresenta as excecoes disparadas.
+    """
     def __init__(self, message):
         self.message = message
