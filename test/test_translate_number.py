@@ -6,26 +6,26 @@ from translate_number import TranslateNumber, TranslateNumberException
 
 
 def test_invalid_number_string():
-    with pytest.raises(TranslateNumberException, match="Valor inválido! São permitidos apenas números inteiros entre -99999 à 99999."):
+    with pytest.raises(TranslateNumberException, match="Valor invalido! Sao permitidos apenas numeros inteiros entre -99999 a 99999."):
         TranslateNumber('123aaaa')
 
 
 def test_invalid_number_other_range():
-    with pytest.raises(TranslateNumberException, match="Fora da faixa permitida! Tente algum número entre -99999 à 99999."):
+    with pytest.raises(TranslateNumberException, match="Fora da faixa permitida! Tente algum numero entre -99999 a 99999."):
         TranslateNumber('100000')
 
 
 def test_invalid_number_other_range_negative():
-    with pytest.raises(TranslateNumberException, match="Fora da faixa permitida! Tente algum número entre -99999 à 99999."):
+    with pytest.raises(TranslateNumberException, match="Fora da faixa permitida! Tente algum numero entre -99999 a 99999."):
         TranslateNumber('-200000')
 
 
 def test_invalid_number_real():
-    with pytest.raises(TranslateNumberException, match="Valor inválido! São permitidos apenas números inteiros entre -99999 à 99999."):
+    with pytest.raises(TranslateNumberException, match="Valor invalido! Sao permitidos apenas numeros inteiros entre -99999 a 99999."):
         TranslateNumber('1.5')
 
 def test_invalid_number_real_negative():
-    with pytest.raises(TranslateNumberException, match="Valor inválido! São permitidos apenas números inteiros entre -99999 à 99999."):
+    with pytest.raises(TranslateNumberException, match="Valor invalido! Sao permitidos apenas numeros inteiros entre -99999 a 99999."):
         TranslateNumber('-1345.89')
 
 def test_valid_number():
